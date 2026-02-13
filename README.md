@@ -1,16 +1,57 @@
-# React + Vite
+# Secure Incident Reporting System – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##  Overview
 
-Currently, two official plugins are available:
+This is the **frontend** of the **Secure Incident Reporting System**, a role-based incident management platform. It allows:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Users:** Report incidents and view their own reports.
+- **Admins:** Manage all incidents, view analytics, and resolve issues.
+- **Super Admins:** Manage users, assign roles, block/unblock users, and view audit logs.
 
-## React Compiler
+Built with **React**, **Tailwind CSS**, and **Recharts** for dashboards.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### For All Roles
+
+- Responsive navigation bar with **Logout** functionality.
+- Clean UI using Tailwind CSS.
+- Axios-based API integration.
+
+### Users
+
+- Submit incidents.
+- View submitted incidents and status.
+
+### Admins
+
+- Analytics dashboard (Total Incidents, Open vs Resolved, Categories, Avg Resolution Time).
+- Manage all incidents.
+- Filter and sort incidents.
+
+### Super Admins
+
+- User management (Add/Edit/Delete users, Assign roles, Block/Unblock).
+- View audit logs for all system actions.
+
+---
+
+##  Technologies Used
+
+- **React 18**  
+- **React Router v6**  
+- **Tailwind CSS**  
+- **Axios**  
+- **Recharts** (charts for analytics)  
+
+---
+
+##  Getting Started
+
+### 1. Clone Repository
+git clone https://github.com/your-username/secure-incident-frontend.git
+cd secure-incident-frontend
+git clone https://github.com/your-username/secure-incident-frontend.git
+cd secure-incident-frontend
