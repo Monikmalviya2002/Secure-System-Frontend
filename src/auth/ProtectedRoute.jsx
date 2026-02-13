@@ -1,22 +1,22 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "./AuthContext";
 
+function ProtectedRoute({ children, allowedRoles }) {
+  const { user, loading } = useAuth();
 
+  if (loading) {
+    return <p className="p-4">Checking auth...</p>;
+  }
 
-            function ProtectedRoute({ children, allowedRoles }) {
-               const { user, loading } = useAuth();
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
 
-           if (loading) return <p className="p-4">Loading...</p>;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-                  if (!user) {
-              return <Navigate to="/" replace />;
-                      }
+  return children;
+}
 
-              if (allowedRoles && !allowedRoles.includes(user.role)) {
-               return <Navigate to="/unauthorized" replace />;
-                   }
-
-           return children;
-          }
-
-  export default ProtectedRoute;
+export default ProtectedRoute;

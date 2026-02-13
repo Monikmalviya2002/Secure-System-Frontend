@@ -1,96 +1,102 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { useAuth } from "../auth/AuthContext";
 
-function Auth() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    username: "",
-    emailId: "",
-    password: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+        function Auth() {
+        const [isLogin, setIsLogin] = useState(true);
+      const [formData, setFormData] = useState({
+                 username: "",
+              emailId: "",
+               password: "",
+                });
+          const [loading, setLoading] = useState(false);
+               const [error, setError] = useState("");
 
-  function handleChange(e) {
-    setFormData({
+            const navigate = useNavigate();
+               const { setUser } = useAuth(); 
+
+             function handleChange(e) {
+      setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  }
+          });
+      }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+            async function handleSubmit(e) {
+                e.preventDefault();
+              setError("");
+              setLoading(true);
 
-    try {
+             try {
       const url = isLogin ? "/api/auth/login" : "/api/auth/signup";
-      const res = await axios.post(url, formData, {
+            const res = await axios.post(url, formData, {
         withCredentials: true,
-      });
+           });
 
-      const role = res.data?.data?.role || res.data?.role;
+      const userData = res.data.data || res.data;
+         setUser(userData); 
+      const role = userData.role;
 
-      if (role === "superadmin") {
-        navigate("/superadmin");
+       if (role === "superadmin") {
+           navigate("/superadmin");
       } else if (role === "admin") {
         navigate("/admin");
-      } else {
+        } else {
         navigate("/user");
       }
-    } catch (err) {
+           } catch (err) {
       setError(err?.response?.data || "Something went wrong");
-    } finally {
+      } finally {
       setLoading(false);
     }
-  }
+           }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+             return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100"> 
+              <h2 className="text-4xl font-semibold text-center  mb-12">Secure Incident Reporting System</h2>
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow">
-        <h2 className="text-2xl font-semibold text-center mb-4">
+          
+           <h2 className="text-2xl font-semibold text-center mb-4">
+                
           {isLogin ? "Login" : "Signup"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
-            type="text"
-            name="username"
+             type="text"
+              name="username"
             placeholder="Username"
             className="w-full border p-2 rounded"
-            value={formData.username}
+              value={formData.username}
             onChange={handleChange}
-            required
+              required
           />
 
           {!isLogin && (
             <input
-              type="email"
+                type="email"
               name="emailId"
               placeholder="Email"
-              className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded"
               value={formData.emailId}
-              onChange={handleChange}
+                onChange={handleChange}
               required
             />
           )}
 
           <input
             type="password"
-            name="password"
+              name="password"
             placeholder="Password"
             className="w-full border p-2 rounded"
-            value={formData.password}
+               value={formData.password}
             onChange={handleChange}
-            required
+               required
           />
 
-          {error && (
-            <p className="text-red-500 text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <button
             type="submit"
@@ -129,4 +135,4 @@ function Auth() {
   );
 }
 
-export default Auth;
+       export default Auth;
