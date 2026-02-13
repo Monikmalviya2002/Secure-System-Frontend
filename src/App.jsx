@@ -4,6 +4,10 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import Auth from "./component/Auth";
 import UserDashboard from "./user/UserDashboard";
 import CreateIncident from "./user/CreateIncident";
+import AdminDashboard from "./admin/AdminDashborad";
+import SuperAdminUsers from "./superadmin/SuperAdminUsers";
+import AuditLogs from "./superadmin/AuditLogs";
+import SuperAdminDashboard from "./superadmin/SuperDashborad";
 
 function App() {
   return (
@@ -30,23 +34,31 @@ function App() {
             }
           />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["admin", "superadmin"]}>
-                <h1>Admin Dashboard</h1>
+          <Route  path="/admin"  element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard/>
               </ProtectedRoute>
             }
           />
+           
 
           <Route
             path="/superadmin"
             element={
               <ProtectedRoute allowedRoles={["superadmin"]}>
-                <h1>Super Admin Dashboard</h1>
+               <SuperAdminDashboard/>
               </ProtectedRoute>
             }
           />
+            
+            <Route
+          path="/superadmin/logs"
+             element={
+         <ProtectedRoute allowedRoles={["superadmin"]}>
+              <AuditLogs />
+           </ProtectedRoute>
+             }
+           />
 
           <Route path="/unauthorized" element={<h1>Not allowed</h1>} />
         </Routes>
