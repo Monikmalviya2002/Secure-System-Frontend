@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
-function SuperAdminUsers() {
-  const [users, setUsers] = useState([]);
 
-  async function fetchUsers() {
-    const res = await axios.get("/api/superadmin", { withCredentials: true });
-    setUsers(res.data);
-  }
 
-  async function changeRole(id, role) {
-    await axios.patch(`/api/superadmin/${id}/role`, { role }, { withCredentials: true });
-    fetchUsers();
-  }
 
-  async function toggleBlock(id, isBlocked) {
-    await axios.patch(`/api/superadmin/${id}/block`, { isBlocked }, { withCredentials: true });
-    fetchUsers();
-  }
+      function SuperAdminUsers() {
+        const [users, setUsers] = useState([]);
 
-  async function deleteUser(id) {
-    if (!confirm("Delete this user?")) return;
-    await axios.delete(`/api/superadmin/${id}`, { withCredentials: true });
-    fetchUsers();
-  }
+            async function fetchUsers() {
+           const res = await axios.get("/api/superadmin", { withCredentials: true });
+       setUsers(res.data);
+                }
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+            async function changeRole(id, role) {
+             await axios.patch(`/api/superadmin/${id}/role`, { role }, { withCredentials: true });
+             fetchUsers();
+                   }
+
+         async function toggleBlock(id, isBlocked) {
+           await axios.patch(`/api/superadmin/${id}/block`, { isBlocked }, { withCredentials: true });
+             fetchUsers();
+                   }
+
+          async function deleteUser(id) {
+           if (!confirm("Delete this user?")) return;
+             await axios.delete(`/api/superadmin/${id}`, { withCredentials: true });
+              fetchUsers();
+                }
+
+          useEffect(() => {
+              fetchUsers();
+                }, []);
 
   return (
     <div className="p-6">
@@ -37,10 +40,10 @@ function SuperAdminUsers() {
         <thead className="bg-gray-100">
           <tr>
             <th className="border p-2">Username</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Role</th>
+             <th className="border p-2">Email</th>
+              <th className="border p-2">Role</th>
             <th className="border p-2">Blocked</th>
-            <th className="border p-2">Actions</th>
+              <th className="border p-2">Actions</th>
           </tr>
         </thead>
         <tbody>

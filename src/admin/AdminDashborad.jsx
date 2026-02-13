@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
-import {
-  PieChart,
+  import { PieChart,
   Pie,
   Cell,
   BarChart,
@@ -11,65 +10,72 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import Navbar from "../component/Navbar";
 
-const COLORS = ["#f97316", "#22c55e"];
 
-function AdminDashboard() {
-  const [stats, setStats] = useState(null);
-  const [incidents, setIncidents] = useState([]);
-  const [status, setStatus] = useState("");
-  const [category, setCategory] = useState("");
-  const [sortBy, setSortBy] = useState("date");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  async function fetchStats() {
-    try {
+          const COLORS = ["#f97316", "#22c55e"];
+
+          function AdminDashboard() {
+             const [stats, setStats] = useState(null);
+       const [incidents, setIncidents] = useState([]);
+     const [status, setStatus] = useState("");
+       const [category, setCategory] = useState("");
+     const [sortBy, setSortBy] = useState("date");
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+
+           async function fetchStats() {
+          try {
       const res = await axios.get("/api/admin/stats", { withCredentials: true });
-      setStats(res.data);
-    } catch (err) {
-      setError("Failed to load analytics");
-    }
-  }
-
-  async function fetchIncidents() {
-    try {
+          setStats(res.data);
+            } catch (err) {
+         setError("Failed to load analytics");
+         }
+           }
+ 
+             async function fetchIncidents() {
+           try {
       setLoading(true);
-      const res = await axios.get("/api/incident", {
+         const res = await axios.get("/api/incident", {
         params: { status, category, sortBy },
-        withCredentials: true,
+           withCredentials: true,
       });
 
-      // 🔒 Crash-proofing
-      setIncidents(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      setError("Failed to load incidents");
-    } finally {
-      setLoading(false);
-    }
-  }
+      
+        setIncidents(Array.isArray(res.data) ? res.data : []);
+             } catch (err) {
+       setError("Failed to load incidents");
+            } finally {
+        setLoading(false);
+       }
+       }
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
+        useEffect(() => {
+          fetchStats();
+            }, []);
 
-  useEffect(() => {
-    fetchIncidents();
-  }, [status, category, sortBy]);
+           useEffect(() => {
+          fetchIncidents();
+          }, [status, category, sortBy]);
 
-  if (!stats) return <p className="p-6">Loading dashboard...</p>;
-  if (error) return <p className="p-6 text-red-500">{error}</p>;
+        if (!stats) return <p className="p-6">Loading dashboard...</p>;
+           if (error) return <p className="p-6 text-red-500">{error}</p>;
 
-  const pieData = [
-    { name: "Open", value: stats.openVsResolved?.open || 0 },
+           const pieData = [
+       { name: "Open", value: stats.openVsResolved?.open || 0 },
     { name: "Resolved", value: stats.openVsResolved?.resolved || 0 },
-  ];
+       ];
 
   return (
+       <div>
+         <Navbar/>
+      
     <div className="p-6 space-y-8">
+         
       <h1 className="text-2xl font-semibold">Admin Analytics Dashboard</h1>
 
-      {/* 📊 Analytics */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div className="border p-4 rounded">
           <h2>Total Incidents</h2>
@@ -110,7 +116,7 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* 🔎 Filters */}
+      
       <div className="flex flex-wrap gap-4 items-center">
         <select
           className="border p-2 rounded"
@@ -146,7 +152,7 @@ function AdminDashboard() {
         </select>
       </div>
 
-      {/* 📋 Incident List */}
+     
       <div className="border rounded overflow-x-auto">
         {loading ? (
           <p className="p-4">Loading incidents...</p>
@@ -180,6 +186,7 @@ function AdminDashboard() {
         )}
       </div>
     </div>
+        </div>
   );
 }
 
